@@ -1,18 +1,18 @@
+require("dotenv").config();
 const express = require("express");
+const PORT = process.env.PORT || 1337;
+const workoutRoutes = require("./routes/workout");
 const app = express();
-const dotenv = require("dotenv");
 const connectDb = require("./db/connect");
-dotenv.config();
 
-const PORT = process.env.PORT;
+app.use(express.json());
 
-const emp_routes = require("./routes/employee");
-
-app.get("/", (req, res) => {
-  res.send("Hello, world!");
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
 });
 
-app.use("/api/employees", emp_routes);
+app.use("/api/workouts", workoutRoutes);
 
 const start = async () => {
   try {
